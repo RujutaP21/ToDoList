@@ -48,6 +48,10 @@ const newTemplate = function(taskId) {
 
 const storeTask = function () {
   window.localStorage.setItem("dataToDoList", dataToDoList);
+  // window.localStorage.setItem("dataCompletedToDoList", dataCompletedToDoList);
+}
+
+const storeCompletedTask = function() {
   window.localStorage.setItem("dataCompletedToDoList", dataCompletedToDoList);
 }
 
@@ -73,8 +77,8 @@ const addTaskHandler = function(event){
   if (value == "") {
     return;
   }
-  addTask(value, true)
-  storeTask(value)
+  addTask(value, true);
+  storeTask(value);
   title.value = "";
   gsap.from(".taskListItem" , {opacity: 0.9, y:-10, duration:0.3});
 }
@@ -104,12 +108,18 @@ const taskClear = function(event) {
   let ul = oneTask.parentNode;
   ul.removeChild(oneTask);
   removeTask(label);
+  removeCompleteTask(label);
   storeTask();
 }
 
 //Removing deleted task from local storage
 const removeTask = function (value) {
-  dataToDoList = dataToDoList.filter( (item) => (item != value) )
+  dataToDoList = dataToDoList.filter((item) => (item != value));
+  
+}
+
+const RemoveCompleteTask = function(value){
+  dataCompletedToDoList =dataCompletedToDoList.filter((item) => (item != value));
 }
 
 //Completed tasks in system
@@ -122,6 +132,7 @@ const taskCompleted = function() {
   removeTask(label);
   console.log(label);
   storeTask();
+  storeCompletedTask();
 }
 
 //save the completed tasks in local storage array
