@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="todostyle.css">
+  <title>TO DO LIST</title>
+</head>
+
+<body>
+  <header>
+    <h3>TO DO LIST</h3>
+  </header>
+
+  <main>
+    <section class="side">
+      <div class="headingBox allTasks">
+        <img src="images/alltask.svg" alt="allTask_icon">
+        <h3>All Tasks</h3>
+      </div>
+      <div class="headingBox clearAll">
+        <img src="images/trash.svg" alt="addTask_icon">
+        <h3 class="clear" id = "clear">Clear All</h3>
+      </div>
+      <div class="headingBox">
+        <img src="images/completelist.svg" alt="completedlist_icon">
+        <h3 class="completedList" id="completedListBtn">Completed Tasks</h3>
+      </div>
+    </section>
+
+    <section class="mainarea">
+      <div class="container">
+        <div class="taskBlock" id="taskTemplate">
+          <input type="text" placeholder="Add Task" style="font-weight: bold;" class="title" id="title">
+
+          <svg id="addicon" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
+            <g id="add-icon" data-name="Group 13" transform="translate(-1017 -193)">
+              <circle id="add-bg" data-name="Ellipse 3" cx="20" cy="20" r="20" transform="translate(1017 193)" fill="#203969"/>
+              <path id="add" d="M25.6,16c0,.885-.077,1.6-.962,1.6H17.6v7.038c0,.883-.715.962-1.6.962s-1.6-.078-1.6-.962V17.6H7.362c-.883,0-.962-.715-.962-1.6s.078-1.6.962-1.6H14.4V7.362c0-.885.715-.962,1.6-.962s1.6.077,1.6.962V14.4h7.038C25.523,14.4,25.6,15.115,25.6,16Z" transform="translate(1020.6 196.601)" fill="#fdfdfd"/>
+            </g>
+          </svg>
+
+        </div>
+
+        <div class="alltasks">
+          <ul id="todoTask">
+
+          </ul>
+        </div>
+
+        <h2>Completed Tasks</h2>
+        <div class="completedTasks">
+          <ul id="completedList">
+
+          </ul>
+        </div>
+
+      </div>
+
+    </section>
+  </main>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/CSSRulePlugin.min.js"></script>
+
+  <script src="todolist.js"></script>
+
+</body>
+</html>
