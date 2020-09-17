@@ -108,7 +108,7 @@ const taskClear = function(event) {
   let ul = oneTask.parentNode;
   ul.removeChild(oneTask);
   removeTask(label);
-  removeCompleteTask(label);
+  // removeCompleteTask(label);
   storeTask();
 }
 
