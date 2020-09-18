@@ -4,8 +4,11 @@ gsap.from(".alltasks" , {opacity: 0.5, y:-10, duration:2});
 
 const taskTitle = document.getElementById("title");
 const addButton = document.getElementById("addicon");
-const toDoList = document.getElementById("todoTask");
-const completedTasks = document.getElementById("completedList");
+
+//wrapper
+const toDoList = document.getElementById("todoTaskList");
+const completedTasksList = document.getElementById("completedTaskList");
+
 const clearButton = document.getElementById("clear");
 
 const storedDataToDoList =localStorage.getItem('dataToDoList');  //getting task from local storage
@@ -48,7 +51,7 @@ const newTemplate = function(taskId) {
 
 const storeTask = function () {
   window.localStorage.setItem("dataToDoList", dataToDoList);
-  // window.localStorage.setItem("dataCompletedToDoList", dataCompletedToDoList);
+  window.localStorage.setItem("dataCompletedToDoList", dataCompletedToDoList);
 }
 
 const storeCompletedTask = function() {
@@ -56,20 +59,21 @@ const storeCompletedTask = function() {
 }
 
 //Create new task and add to local storage
-const addTask = function (value, save) {
+const addTask = function (value, container, save) {
   let oneTask = newTemplate(value);
-  toDoList.appendChild(oneTask);
+  container.appendChild(oneTask);
   bindTaskEvents(oneTask, taskCompleted);
-  toDoList.appendChild(oneTask);
+  //toDoList.appendChild(oneTask);
   if(save) dataToDoList.push(value);
 }
 
-//save the new tasks in local storage array
-const buildSavedList = function () {
-  dataToDoList.map((item) => {
-    addTask(item, false);
+
+const buildGenericList = function (list, container) {
+  list.map((item) => {
+    addTask(item, container, false);
   })    
 }
+
 
 //Add new task to the list and local storage
 const addTaskHandler = function(event){
@@ -77,10 +81,11 @@ const addTaskHandler = function(event){
   if (value == "") {
     return;
   }
-  addTask(value, true);
+  addTask(value, toDoList, true);
   storeTask(value);
   title.value = "";
   gsap.from(".taskListItem" , {opacity: 0.9, y:-10, duration:0.3});
+
 }
 
 //Edit Task in list
@@ -102,7 +107,6 @@ const editTask = function() {
 
 // Removing task from list
 const taskClear = function(event) {
-  console.log(event)
   let oneTask = this.parentNode;
   let label = oneTask.getElementsByTagName("label")[0].innerText;
   let ul = oneTask.parentNode;
@@ -115,18 +119,19 @@ const taskClear = function(event) {
 //Removing deleted task from local storage
 const removeTask = function (value) {
   dataToDoList = dataToDoList.filter((item) => (item != value));
-  // dataCompletedToDoList =dataCompletedToDoList.filter((item) => (item != value));
+  //dataCompletedToDoList =dataCompletedToDoList.filter((item) => (item != value));
   
 }
 
 const removeCompleteTask = function(value){
-  dataCompletedToDoList =dataCompletedToDoList.filter((item) => (item != value));
+  dataCompletedToDoList = dataCompletedToDoList.filter((item) => (item != value));
 }
 
 //Completed tasks in system
 const taskCompleted = function() {
   let oneTask = this.parentNode;
-  completedTasks.appendChild(oneTask);
+  console.log(completedTasksList)
+  completedTasksList.appendChild(oneTask);
   let label = oneTask.getElementsByTagName("label")[0].innerText;
   dataCompletedToDoList.push(label);
   console.log(oneTask);
@@ -135,6 +140,9 @@ const taskCompleted = function() {
   storeTask();
   storeCompletedTask();
 }
+
+
+
 
 //save the completed tasks in local storage array
 const buildCompletedList = function () {
@@ -153,7 +161,7 @@ const taskIncomplete = function(e) {
 //Clear all the task from the list
 const clear = function() {
     toDoList.innerHTML = "";
-    completedTasks.innerHTML = "";
+    completedTasksList.innerHTML = "";
     dataToDoList= [];
     dataCompletedToDoList =[];
     storeTask();
@@ -171,15 +179,25 @@ const bindTaskEvents = function(taskList, taskElementEventHandler) {
     clearTask.onclick = taskClear;
 }
 
-addButton.addEventListener("mouseover",animateAddbutton);
+
 function animateAddbutton(event){
   gsap.to('#add',0.1,{rotate:10, yoyo:true, repeat:2, duration:1});
   gsap.from('#add',0.1,{rotate:-10, yoyo:true, repeat:2, duration:1});
 }
 
 
-addButton.addEventListener("click", addTaskHandler);
-buildSavedList();
-buildCompletedList();
+function init() {
 
-clearButton.addEventListener('click', clear);
+  //build stored list
+  buildGenericList(dataToDoList, toDoList);
+  buildGenericList(dataCompletedToDoList, completedTasksList);
+
+  //handler
+  addButton.addEventListener("mouseover",animateAddbutton);
+  addButton.addEventListener("click", addTaskHandler);
+  clearButton.addEventListener('click', clear);
+
+}
+
+
+init()
