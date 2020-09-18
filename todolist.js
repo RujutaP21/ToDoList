@@ -136,11 +136,11 @@ const taskCompleted = function() {
 }
 
 //save the completed tasks in local storage array
-const buildCompletedList = function () {
-  dataCompletedToDoList.map((item) => {
-    taskCompleted(item, false);
-  })    
-}
+// const buildCompletedList = function () {
+//   dataCompletedToDoList.map((item) => {
+//     taskCompleted(item, false);
+//   })    
+// }
 
 //Incomplete tasks in the list
 const taskIncomplete = function(e) {
@@ -154,7 +154,9 @@ const clear = function() {
     toDoList.innerHTML = "";
     completedTasks.innerHTML = "";
     dataToDoList= [];
+    dataCompletedToDoList =[];
     storeTask();
+    storeCompletedTask();
 }
 
 //On click event handler
@@ -177,6 +179,6 @@ function animateAddbutton(event){
 
 addButton.addEventListener("click", addTaskHandler);
 buildSavedList();
-buildCompletedList();
+// buildCompletedList();
 
 clearButton.addEventListener('click', clear);
