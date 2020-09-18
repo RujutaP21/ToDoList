@@ -108,17 +108,18 @@ const taskClear = function(event) {
   let ul = oneTask.parentNode;
   ul.removeChild(oneTask);
   removeTask(label);
-  // removeCompleteTask(label);
+  removeCompleteTask(label);
   storeTask();
 }
 
 //Removing deleted task from local storage
 const removeTask = function (value) {
   dataToDoList = dataToDoList.filter((item) => (item != value));
+  // dataCompletedToDoList =dataCompletedToDoList.filter((item) => (item != value));
   
 }
 
-const RemoveCompleteTask = function(value){
+const removeCompleteTask = function(value){
   dataCompletedToDoList =dataCompletedToDoList.filter((item) => (item != value));
 }
 
@@ -136,11 +137,11 @@ const taskCompleted = function() {
 }
 
 //save the completed tasks in local storage array
-// const buildCompletedList = function () {
-//   dataCompletedToDoList.map((item) => {
-//     taskCompleted(item, false);
-//   })    
-// }
+const buildCompletedList = function () {
+  dataCompletedToDoList.map((item) => {
+    taskCompleted(item, true);
+  })    
+}
 
 //Incomplete tasks in the list
 const taskIncomplete = function(e) {
@@ -179,6 +180,6 @@ function animateAddbutton(event){
 
 addButton.addEventListener("click", addTaskHandler);
 buildSavedList();
-// buildCompletedList();
+buildCompletedList();
 
 clearButton.addEventListener('click', clear);
