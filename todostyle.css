@@ -102,6 +102,7 @@ textarea{
     color: rgb(105, 0, 105);
     text-transform: uppercase;
     font-size: medium;
+    /* border-bottom: 1px solid rgb(105, 0, 105); */
 }
 
 
@@ -137,6 +138,11 @@ ul li.editValue p {
 
 .taskListItem p{
     margin: 0;
+}
+
+.dateClass{
+    color: grey;
+    font-size: small;
 }
 
 .completedTasks{

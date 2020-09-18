@@ -28,6 +28,15 @@ const newTemplate = function(taskId) {
   let editBtn = document.createElement("img");
   let completeBtn = document.createElement("img");
   let clearTask = document.createElement("img");
+  let taskDate = document.createElement("p");
+  let date = new Date();
+  console.log(date);
+
+  // let newTemplate = {
+  //   oneTask : taskId,
+  //   taskElement: document.createElement("p"),
+  //   label:document.createElement("label"),
+  // }
 
     oneTask.className = "taskListItem"
     taskElement.innerText = taskId;
@@ -39,6 +48,8 @@ const newTemplate = function(taskId) {
     completeBtn.className = "taskButton complete";
     clearTask.src = "./images/delete.svg";
     clearTask.className = "taskButton clear";
+    taskDate.innerText = date.getUTCDate() + "-" + (date.getUTCMonth()+1) + "-" + date.getUTCFullYear();
+    taskDate.className = "dateClass";
 
     oneTask.appendChild(taskElement);
     oneTask.appendChild(label);
@@ -46,6 +57,7 @@ const newTemplate = function(taskId) {
     oneTask.appendChild(editBtn);
     oneTask.appendChild(completeBtn);
     oneTask.appendChild(clearTask);
+    oneTask.appendChild(taskDate);
 
   return oneTask;
 }
