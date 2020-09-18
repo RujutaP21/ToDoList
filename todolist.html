@@ -14,17 +14,17 @@
 
   <main>
     <section class="side">
-      <div class="headingBox allTasks">
+      <div class="headingBox allTasks" id = "allTaskBtn">
         <img src="images/alltask.svg" alt="allTask_icon">
         <h3>All Tasks</h3>
       </div>
-      <div class="headingBox clearAll">
+      <div class="headingBox clearAll" id = "clear">
         <img src="images/trash.svg" alt="addTask_icon">
-        <h3 class="clear" id = "clear">Clear All</h3>
+        <h3 class="clear" >Clear All</h3>
       </div>
-      <div class="headingBox">
+      <div class="headingBox" id="completedListBtn">
         <img src="images/completelist.svg" alt="completedlist_icon">
-        <h3 class="completedList" id="completedListBtn">Completed Tasks</h3>
+        <h3 class="completedList" >Completed Tasks</h3>
       </div>
     </section>
 
@@ -39,27 +39,22 @@
               <path id="add" d="M25.6,16c0,.885-.077,1.6-.962,1.6H17.6v7.038c0,.883-.715.962-1.6.962s-1.6-.078-1.6-.962V17.6H7.362c-.883,0-.962-.715-.962-1.6s.078-1.6.962-1.6H14.4V7.362c0-.885.715-.962,1.6-.962s1.6.077,1.6.962V14.4h7.038C25.523,14.4,25.6,15.115,25.6,16Z" transform="translate(1020.6 196.601)" fill="#fdfdfd"/>
             </g>
           </svg>
-
         </div>
 
-
-
         <!--wrapper list -->
-        <div class="alltasks">
+        <div class="alltasks tasklist" id="displayToDo">
+          <h2>Tasks to be completed</h2>
           <ul id="todoTaskList">
           </ul>
         </div>
 
-
-
         <!--wrapper completed list -->
-        <h2>Completed Tasks</h2>
-        <div class="completedTasks">
+        <div class="completedTasks tasklist" id="displayCompleted">
+          <h2>Completed Tasks</h2>
           <ul id="completedTaskList">
 
           </ul>
         </div>
-
       </div>
 
     </section>
@@ -68,7 +63,6 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/CSSRulePlugin.min.js"></script>
-
   <script src="todolist.js"></script>
 
 </body>

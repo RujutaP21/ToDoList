@@ -4,6 +4,8 @@ gsap.from(".alltasks" , {opacity: 0.5, y:-10, duration:2});
 
 const taskTitle = document.getElementById("title");
 const addButton = document.getElementById("addicon");
+const displayCompleted = document.getElementById("completedListBtn");
+const displayAllList = document.getElementById("allTaskBtn");
 
 //wrapper
 const toDoList = document.getElementById("todoTaskList");
@@ -74,7 +76,6 @@ const buildGenericList = function (list, container) {
   })    
 }
 
-
 //Add new task to the list and local storage
 const addTaskHandler = function(event){
   const value = title.value;
@@ -85,7 +86,6 @@ const addTaskHandler = function(event){
   storeTask(value);
   title.value = "";
   gsap.from(".taskListItem" , {opacity: 0.9, y:-10, duration:0.3});
-
 }
 
 //Edit Task in list
@@ -119,8 +119,7 @@ const taskClear = function(event) {
 //Removing deleted task from local storage
 const removeTask = function (value) {
   dataToDoList = dataToDoList.filter((item) => (item != value));
-  //dataCompletedToDoList =dataCompletedToDoList.filter((item) => (item != value));
-  
+  //dataCompletedToDoList =dataCompletedToDoList.filter((item) => (item != value)); 
 }
 
 const removeCompleteTask = function(value){
@@ -139,16 +138,6 @@ const taskCompleted = function() {
   console.log(label);
   storeTask();
   storeCompletedTask();
-}
-
-
-
-
-//save the completed tasks in local storage array
-const buildCompletedList = function () {
-  dataCompletedToDoList.map((item) => {
-    taskCompleted(item, true);
-  })    
 }
 
 //Incomplete tasks in the list
@@ -179,12 +168,22 @@ const bindTaskEvents = function(taskList, taskElementEventHandler) {
     clearTask.onclick = taskClear;
 }
 
-
 function animateAddbutton(event){
   gsap.to('#add',0.1,{rotate:10, yoyo:true, repeat:2, duration:1});
   gsap.from('#add',0.1,{rotate:-10, yoyo:true, repeat:2, duration:1});
 }
 
+function displayComplete(){
+  document.getElementById("displayCompleted").style.display = "block";
+  document.getElementById("displayToDo").style.display = "none";
+  document.getElementById("taskTemplate").style.display = "none";
+}
+
+function displayAll(){
+  document.getElementById("displayCompleted").style.display = "block";
+  document.getElementById("displayToDo").style.display = "block";
+  document.getElementById("taskTemplate").style.display = "block";
+}
 
 function init() {
 
@@ -196,8 +195,8 @@ function init() {
   addButton.addEventListener("mouseover",animateAddbutton);
   addButton.addEventListener("click", addTaskHandler);
   clearButton.addEventListener('click', clear);
-
+  displayCompleted.addEventListener('click', displayComplete);
+  displayAllList.addEventListener('click', displayAll);
 }
-
 
 init()

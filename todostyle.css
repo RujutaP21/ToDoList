@@ -96,6 +96,14 @@ textarea{
     transform: scale(1.5);
 }
 
+.tasklist h2{
+    margin: 1em;
+    margin-left: 4em;
+    color: rgb(105, 0, 105);
+    text-transform: uppercase;
+    font-size: medium;
+}
+
 
 ul{
     list-style: none;
@@ -131,9 +139,22 @@ ul li.editValue p {
     margin: 0;
 }
 
+.completedTasks{
+    display: none;
+}
+
 .completedTasks ul li{
-    background-color: #eed9ce;
-    border: 1px dashed palevioletred;
+    background-color: #d0dadb;
+    border: 1px dashed rgb(139, 85, 85);
+    color: grey;
+}
+
+.completedTasks ul li .complete{
+    display: none;
+}
+
+.completedTasks ul li .edit{
+    display: none;
 }
 
 .taskButton{
