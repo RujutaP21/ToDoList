@@ -4,12 +4,16 @@ gsap.from(".alltasks" , {opacity: 0.5, y:-10, duration:2});
 
 const taskTitle = document.getElementById("title");
 const addButton = document.getElementById("addicon");
+<<<<<<< Updated upstream
+=======
+const displayCompleted = document.getElementById("completedListBtn");
+const displayAllList = document.getElementById("allTaskBtn");
+const clearButton = document.getElementById("clear");
+>>>>>>> Stashed changes
 
 //wrapper
 const toDoList = document.getElementById("todoTaskList");
 const completedTasksList = document.getElementById("completedTaskList");
-
-const clearButton = document.getElementById("clear");
 
 const storedDataToDoList =localStorage.getItem('dataToDoList');  //getting task from local storage
 const storedCompletedToDoList =localStorage.getItem('dataCompletedToDoList');  //getting completed task from local storage
