@@ -30,13 +30,6 @@ const newTemplate = function(taskId) {
   let clearTask = document.createElement("img");
   let taskDate = document.createElement("p");
   let date = new Date();
-  console.log(date);
-
-  // let newTemplate = {
-  //   oneTask : taskId,
-  //   taskElement: document.createElement("p"),
-  //   label:document.createElement("label"),
-  // }
 
     oneTask.className = "taskListItem"
     taskElement.innerText = taskId;
@@ -100,7 +93,7 @@ const addTaskHandler = function(event){
 }
 
 //Edit Task in list
-const editTask = function() {
+const editTaskFun = function() {
   let oneTask = this.parentNode;
   let editTask = oneTask.querySelector("input[type=text]");
   let taskElement = oneTask.querySelector("p");
@@ -112,7 +105,10 @@ const editTask = function() {
     } else {
         editTask.value = taskElement.innerText;
         editTask.value = label.innerText;
-    }
+  }
+  removeTask(editTask.value);
+  dataToDoList.push(editTask.value);
+  storeTask();
   oneTask.classList.toggle("editValue");
 }
 
@@ -130,7 +126,6 @@ const taskClear = function(event) {
 //Removing deleted task from local storage
 const removeTask = function (value) {
   dataToDoList = dataToDoList.filter((item) => (item != value));
-  //dataCompletedToDoList =dataCompletedToDoList.filter((item) => (item != value)); 
 }
 
 const removeCompleteTask = function(value){
@@ -140,13 +135,13 @@ const removeCompleteTask = function(value){
 //Completed tasks in system
 const taskCompleted = function() {
   let oneTask = this.parentNode;
-  console.log(completedTasksList)
+  // console.log(completedTasksList)
   completedTasksList.appendChild(oneTask);
   let label = oneTask.getElementsByTagName("label")[0].innerText;
   dataCompletedToDoList.push(label);
   console.log(oneTask);
   removeTask(label);
-  console.log(label);
+  // console.log(label);
   storeTask();
   storeCompletedTask();
 }
@@ -172,7 +167,7 @@ const clear = function() {
 const bindTaskEvents = function(taskList, taskElementEventHandler) {
     let taskElement = taskList.querySelector('label'); 
     let editBtn = taskList.querySelector("img.edit");
-    editBtn.onclick = editTask;
+    editBtn.onclick = editTaskFun;
     let completeBtn = taskList.querySelector("img.complete");
     completeBtn.onclick = taskCompleted;
     let clearTask = taskList.querySelector("img.clear");
