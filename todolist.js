@@ -89,7 +89,7 @@ const addTaskHandler = function(event){
 
   //toDoList.appendChild(oneTask);
   let date = new Date()
-  date = date.getUTCDate() + "-" + (date.getUTCMonth()+1) + "-" + date.getUTCFullYear();
+  date = date.getUTCDate() + "-" + (date.getUTCMonth()+1) + "-" + date.getUTCFullYear(); 
 
 
   let taskItem= {
@@ -108,18 +108,17 @@ const addTaskHandler = function(event){
 }
 
 //Edit Task in list
-const editTaskFun = function() {
+const editTaskFun = function(taskItem) {
   let oneTask = this.parentNode;
   let listTask =oneTask.parentNode;
   let pos =[...listTask.children].indexOf(oneTask);
   let editTask = oneTask.querySelector("input[type=text]");
   let taskElement = oneTask.querySelector("p");
-  // let label = oneTask.querySelector("label");
-  let label = oneTask.getElementsByTagName("label")[pos].innerText;
-  dataToDoList.splice(pos,1)
-  // removeTask(labelstorage);
-  // storeTask();
-
+  let label = oneTask.querySelector("label");
+  // let label = oneTask.getElementsByTagName("label")[pos].innerText;
+  // dataToDoList.splice(pos,1);
+  // removeTask();
+  storeTask();
   let editCondition = oneTask.classList.contains("editValue");
   if (editCondition) {
     taskElement.innerText = editTask.value;
@@ -127,11 +126,11 @@ const editTaskFun = function() {
     } else {
         editTask.value = taskElement.innerText;
         editTask.value = label.innerText;
+        
   }
-  // dataToDoList.push();
-  let obj = dataToDoList[pos]
-  dataToDoList.push(obj)
-  render();
+  // let obj = dataToDoList[pos];
+  dataToDoList[pos].title = editTask.value;
+
   storeTask();
   oneTask.classList.toggle("editValue");
 }
@@ -165,14 +164,14 @@ const taskClear = function(event) {
   storeTask();
 }
 
-//Removing deleted task from local storage
-const removeTask = function (value) {
-  dataToDoList = dataToDoList.filter((item) => (item != value));
-}
+// //Removing deleted task from local storage
+// const removeTask = function (value) {
+//   dataToDoList = dataToDoList.filter((item) => (item != value));
+// }
 
-const removeCompleteTask = function(value){
-  dataCompletedToDoList = dataCompletedToDoList.filter((item) => (item != value));
-}
+// const removeCompleteTask = function(value){
+//   dataCompletedToDoList = dataCompletedToDoList.filter((item) => (item != value));
+// }
 
 //Completed tasks in system
 const taskCompleted = function() {
@@ -209,8 +208,8 @@ const clear = function() {
 }
 
 //On click event handler
-const bindTaskEvents = function(taskList, taskElementEventHandler) {
-    let taskElement = taskList.querySelector('label'); 
+const bindTaskEvents = function(taskList) {
+    // let taskElement = taskList.querySelector('label'); 
     let editBtn = taskList.querySelector("img.edit");
     editBtn.onclick = editTaskFun;
     let completeBtn = taskList.querySelector("img.complete");
@@ -255,7 +254,5 @@ function render () {
   buildGenericList(dataCompletedToDoList, completedTasksList);
 
 }
-
-
 
 init()

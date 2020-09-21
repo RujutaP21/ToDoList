@@ -16,8 +16,8 @@ $completedTasksList = $("#completedTaskList");
 $storedDataToDoList =localStorage.getItem('dataToDoList');  //getting task from local storage
 $storedCompletedToDoList =localStorage.getItem('dataCompletedToDoList');  //getting completed task from local storage
 
-$dataToDoList = (storedDataToDoList && storedDataToDoList.split(",")) || []; // checking the local storage array
-$dataCompletedToDoList = (storedCompletedToDoList && storedCompletedToDoList.split(",")) || []; //checking for completed list array
+$dataToDoList = (storedDataToDoList && JSON.parse(storedDataToDoList.split(","))) || []; // checking the local storage array
+$dataCompletedToDoList = (storedCompletedToDoList && JSON.parse(storedCompletedToDoList.split(","))) || []; //checking for completed list array
 
 // New task layout
 const newTemplate = function(taskId) {
