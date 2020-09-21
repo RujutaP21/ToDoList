@@ -2,25 +2,26 @@ gsap.from(".taskBlock", {opacity: 0.5, y:-10, duration: 2});
 gsap.from(".headingBox" , {opacity: 0.5, x:-100, duration:2});
 gsap.from(".alltasks" , {opacity: 0.5, y:-10, duration:2});
 
-const taskTitle = document.getElementById("title");
-const addButton = document.getElementById("addicon");
-const displayCompleted = document.getElementById("completedListBtn");
-const displayAllList = document.getElementById("allTaskBtn");
-const clearButton = document.getElementById("clear");
+//Side Buttons
+$addButton = $("#addicon");
+$displayCompleted = $("#completedListBtn");
+$displayAllList = $("#allTaskBtn");
+$clearButton = $("#clear");
 
 //wrapper
-const toDoList = document.getElementById("todoTaskList");
-const completedTasksList = document.getElementById("completedTaskList");
+$toDoList = $("#todoTaskList");
+$completedTasksList = $("#completedTaskList");
 
-const storedDataToDoList =localStorage.getItem('dataToDoList');  //getting task from local storage
-const storedCompletedToDoList =localStorage.getItem('dataCompletedToDoList');  //getting completed task from local storage
+//Local Storage
+$storedDataToDoList =localStorage.getItem('dataToDoList');  //getting task from local storage
+$storedCompletedToDoList =localStorage.getItem('dataCompletedToDoList');  //getting completed task from local storage
 
-let dataToDoList = (storedDataToDoList && JSON.parse(storedDataToDoList)) || []; // checking the local storage array
-let dataCompletedToDoList = (storedCompletedToDoList && JSON.parse(storedCompletedToDoList)) || []; //checking for completed list array
+$dataToDoList = (storedDataToDoList && storedDataToDoList.split(",")) || []; // checking the local storage array
+$dataCompletedToDoList = (storedCompletedToDoList && storedCompletedToDoList.split(",")) || []; //checking for completed list array
 
-//New task template
+// New task layout
+const newTemplate = function(taskId) {
 
-const newTemplate = function(taskObj) {
   let oneTask = document.createElement("li");
   let editBtn = document.createElement("img");
   let completeBtn = document.createElement("img");
@@ -29,10 +30,11 @@ const newTemplate = function(taskObj) {
   let label = document.createElement("label");
   let editTask = document.createElement("input");
   let taskDate = document.createElement("p");
+  let date = new Date();
 
     oneTask.className = "taskListItem"
-    taskElement.innerText = taskObj.title;
-    label.innerText = taskObj.title;
+    taskElement.innerText = taskId;
+    label.innerText =taskId;
     editTask.type = "text";
     editBtn.src = "./images/edit.svg";
     editBtn.className = "taskButton edit";
@@ -40,7 +42,7 @@ const newTemplate = function(taskObj) {
     completeBtn.className = "taskButton complete";
     clearTask.src = "./images/delete.svg";
     clearTask.className = "taskButton clear";
-    taskDate.innerText = taskObj.date;
+    taskDate.innerText = date.getUTCDate() + "-" + (date.getUTCMonth()+1) + "-" + date.getUTCFullYear();
     taskDate.className = "dateClass";
 
     oneTask.appendChild(taskElement);
@@ -55,27 +57,26 @@ const newTemplate = function(taskObj) {
 }
 
 const storeTask = function () {
-  window.localStorage.setItem("dataToDoList", JSON.stringify(dataToDoList));
-  window.localStorage.setItem("dataCompletedToDoList", JSON.stringify(dataCompletedToDoList));
+  window.localStorage.setItem("dataToDoList", dataToDoList);
+  window.localStorage.setItem("dataCompletedToDoList", dataCompletedToDoList);
+}
+
+const storeCompletedTask = function() {
+  window.localStorage.setItem("dataCompletedToDoList", dataCompletedToDoList);
 }
 
 //Create new task and add to local storage
-const addTask = function (taskItem, container, save) {
-  
-  
-  let oneTask = newTemplate(taskItem);
+const addTask = function (value, container, save) {
+  let oneTask = newTemplate(value);
   container.appendChild(oneTask);
   bindTaskEvents(oneTask, taskCompleted);
-
-  if(save) dataToDoList.push(taskItem);
+  //toDoList.appendChild(oneTask);
+  if(save) dataToDoList.push(value);
 }
 
 
 const buildGenericList = function (list, container) {
-  //clean list
-  container.innerHTML='';
   list.map((item) => {
-    console.log(item)
     addTask(item, container, false);
   })    
 }
@@ -86,23 +87,8 @@ const addTaskHandler = function(event){
   if (value == "") {
     return;
   }
-
-  //toDoList.appendChild(oneTask);
-  let date = new Date()
-  date = date.getUTCDate() + "-" + (date.getUTCMonth()+1) + "-" + date.getUTCFullYear();
-
-
-  let taskItem= {
-    'title':value, 
-    'date' : date
-  }
-
-
-
-
-  addTask(taskItem, toDoList, true);
-  storeTask();
-
+  addTask(value, toDoList, true);
+  storeTask(value);
   title.value = "";
   gsap.from(".taskListItem" , {opacity: 0.9, y:-10, duration:0.3});
 }
@@ -110,16 +96,12 @@ const addTaskHandler = function(event){
 //Edit Task in list
 const editTaskFun = function() {
   let oneTask = this.parentNode;
-  let listTask =oneTask.parentNode;
-  let pos =[...listTask.children].indexOf(oneTask);
   let editTask = oneTask.querySelector("input[type=text]");
   let taskElement = oneTask.querySelector("p");
-  // let label = oneTask.querySelector("label");
-  let label = oneTask.getElementsByTagName("label")[pos].innerText;
-  dataToDoList.splice(pos,1)
-  // removeTask(labelstorage);
-  // storeTask();
-
+  let label = oneTask.querySelector("label");
+  let labelstorage = oneTask.getElementsByTagName("label")[0].innerText;
+  removeTask(labelstorage);
+  storeTask(labelstorage);
   let editCondition = oneTask.classList.contains("editValue");
   if (editCondition) {
     taskElement.innerText = editTask.value;
@@ -128,40 +110,19 @@ const editTaskFun = function() {
         editTask.value = taskElement.innerText;
         editTask.value = label.innerText;
   }
-  // dataToDoList.push();
-  let obj = dataToDoList[pos]
-  dataToDoList.push(obj)
-  render();
+  dataToDoList.push(editTask.value);
   storeTask();
   oneTask.classList.toggle("editValue");
 }
 
 // Removing task from list
 const taskClear = function(event) {
-  // let oneTask = this.parentNode;
-  // let label = oneTask.getElementsByTagName("label")[0].innerText;
-  // let ul = oneTask.parentNode;
-  // ul.removeChild(oneTask);
-  // removeTask(label);
-  // removeCompleteTask(label);
-  // storeTask();
-
-
-
   let oneTask = this.parentNode;
-  let listTask =oneTask.parentNode;
-  let pos =[...listTask.children].indexOf(oneTask);
-
-  if (listTask.getAttribute('id') ==='completedTaskList') {
-    dataCompletedToDoList.splice(pos,1)
-  } else {
-    dataToDoList.splice(pos,1)
-
-  }
-  //render list again
-  render();
-
-  //save to local storage
+  let label = oneTask.getElementsByTagName("label")[0].innerText;
+  let ul = oneTask.parentNode;
+  ul.removeChild(oneTask);
+  removeTask(label);
+  removeCompleteTask(label);
   storeTask();
 }
 
@@ -176,20 +137,13 @@ const removeCompleteTask = function(value){
 
 //Completed tasks in system
 const taskCompleted = function() {
-
   let oneTask = this.parentNode;
-  let pos =[...oneTask.parentNode.children].indexOf(oneTask);
-
-  //data array manipultaion
-  let obj = dataToDoList[pos];
-  dataCompletedToDoList.push(obj);
-  dataToDoList.splice(pos,1);
-
-  //render list again
-  render();
-
-  //save to local storage
+  completedTasksList.appendChild(oneTask);
+  let label = oneTask.getElementsByTagName("label")[0].innerText;
+  dataCompletedToDoList.push(label);
+  removeTask(label);
   storeTask();
+  storeCompletedTask();
 }
 
 //Incomplete tasks in the list
@@ -206,6 +160,7 @@ const clear = function() {
     dataToDoList= [];
     dataCompletedToDoList =[];
     storeTask();
+    storeCompletedTask();
 }
 
 //On click event handler
@@ -219,7 +174,7 @@ const bindTaskEvents = function(taskList, taskElementEventHandler) {
     clearTask.onclick = taskClear;
 }
 
-function animateAddbutton(event){
+function animateAddbutton(){
   gsap.to('#add',0.1,{rotate:10, yoyo:true, repeat:2, duration:1});
   gsap.from('#add',0.1,{rotate:-10, yoyo:true, repeat:2, duration:1});
 }
@@ -238,7 +193,9 @@ function displayAll(){
 
 function init() {
 
-  render();
+  //build stored list
+  buildGenericList(dataToDoList, toDoList);
+  buildGenericList(dataCompletedToDoList, completedTasksList);
 
   //handler
   addButton.addEventListener("mouseover",animateAddbutton);
@@ -247,15 +204,5 @@ function init() {
   displayCompleted.addEventListener('click', displayComplete);
   displayAllList.addEventListener('click', displayAll);
 }
-
-
-function render () {
-  //build stored list
-  buildGenericList(dataToDoList, toDoList);
-  buildGenericList(dataCompletedToDoList, completedTasksList);
-
-}
-
-
 
 init()
