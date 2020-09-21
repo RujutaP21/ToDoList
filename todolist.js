@@ -98,6 +98,9 @@ const editTaskFun = function() {
   let editTask = oneTask.querySelector("input[type=text]");
   let taskElement = oneTask.querySelector("p");
   let label = oneTask.querySelector("label");
+  let labelstorage = oneTask.getElementsByTagName("label")[0].innerText;
+  removeTask(labelstorage);
+  storeTask(labelstorage);
   let editCondition = oneTask.classList.contains("editValue");
   if (editCondition) {
     taskElement.innerText = editTask.value;
@@ -106,7 +109,6 @@ const editTaskFun = function() {
         editTask.value = taskElement.innerText;
         editTask.value = label.innerText;
   }
-  removeTask(editTask.value);
   dataToDoList.push(editTask.value);
   storeTask();
   oneTask.classList.toggle("editValue");
