@@ -16,18 +16,19 @@ const storedDataToDoList =localStorage.getItem('dataToDoList');  //getting task 
 const storedCompletedToDoList =localStorage.getItem('dataCompletedToDoList');  //getting completed task from local storage
 
 let dataToDoList = (storedDataToDoList && storedDataToDoList.split(",")) || []; // checking the local storage array
+// let dataToDoList = (storedDataToDoList && ('\'' + storedDataToDoList.split(",").join('\',\'') + '\'')) || [];
 let dataCompletedToDoList = (storedCompletedToDoList && storedCompletedToDoList.split(",")) || []; //checking for completed list array
 
 //New task template
 
 const newTemplate = function(taskId) {
   let oneTask = document.createElement("li");
-  let taskElement = document.createElement("p");
-  let label = document.createElement("label");
-  let editTask = document.createElement("input");
   let editBtn = document.createElement("img");
   let completeBtn = document.createElement("img");
   let clearTask = document.createElement("img");
+  let taskElement = document.createElement("p");
+  let label = document.createElement("label");
+  let editTask = document.createElement("input");
   let taskDate = document.createElement("p");
   let date = new Date();
 
@@ -141,7 +142,7 @@ const taskCompleted = function() {
   completedTasksList.appendChild(oneTask);
   let label = oneTask.getElementsByTagName("label")[0].innerText;
   dataCompletedToDoList.push(label);
-  console.log(oneTask);
+  // console.log(oneTask);
   removeTask(label);
   // console.log(label);
   storeTask();
