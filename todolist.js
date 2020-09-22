@@ -19,7 +19,6 @@ let dataToDoList = (storedDataToDoList && JSON.parse(storedDataToDoList)) || [];
 let dataCompletedToDoList = (storedCompletedToDoList && JSON.parse(storedCompletedToDoList)) || []; //checking for completed list array
 
 //New task template
-
 const newTemplate = function(taskObj) {
   let oneTask = document.createElement("li");
   let editBtn = document.createElement("img");
@@ -60,19 +59,15 @@ const storeTask = function () {
 }
 
 //Create new task and add to local storage
-const addTask = function (taskItem, container, save) {
-  
-  
+const addTask = function (taskItem, container, save) {   
   let oneTask = newTemplate(taskItem);
   container.appendChild(oneTask);
   bindTaskEvents(oneTask, taskCompleted);
-
   if(save) dataToDoList.push(taskItem);
 }
 
-
+//clean list
 const buildGenericList = function (list, container) {
-  //clean list
   container.innerHTML='';
   list.map((item) => {
     console.log(item)
@@ -87,91 +82,56 @@ const addTaskHandler = function(event){
     return;
   }
 
-  //toDoList.appendChild(oneTask);
   let date = new Date()
   date = date.getUTCDate() + "-" + (date.getUTCMonth()+1) + "-" + date.getUTCFullYear(); 
-
-
   let taskItem= {
     'title':value, 
     'date' : date
   }
 
-
-
-
   addTask(taskItem, toDoList, true);
   storeTask();
-
   title.value = "";
   gsap.from(".taskListItem" , {opacity: 0.9, y:-10, duration:0.3});
 }
 
 //Edit Task in list
-const editTaskFun = function(taskItem) {
+const editTaskFun = function() {
   let oneTask = this.parentNode;
   let listTask =oneTask.parentNode;
   let pos =[...listTask.children].indexOf(oneTask);
   let editTask = oneTask.querySelector("input[type=text]");
   let taskElement = oneTask.querySelector("p");
   let label = oneTask.querySelector("label");
-  // let label = oneTask.getElementsByTagName("label")[pos].innerText;
-  // dataToDoList.splice(pos,1);
-  // removeTask();
-  storeTask();
+
   let editCondition = oneTask.classList.contains("editValue");
   if (editCondition) {
     taskElement.innerText = editTask.value;
     label.innerText = editTask.value;
     } else {
         editTask.value = taskElement.innerText;
-        editTask.value = label.innerText;
-        
+        editTask.value = label.innerText;       
   }
-  // let obj = dataToDoList[pos];
-  dataToDoList[pos].title = editTask.value;
 
+  dataToDoList[pos].title = editTask.value;
   storeTask();
   oneTask.classList.toggle("editValue");
 }
 
 // Removing task from list
 const taskClear = function(event) {
-  // let oneTask = this.parentNode;
-  // let label = oneTask.getElementsByTagName("label")[0].innerText;
-  // let ul = oneTask.parentNode;
-  // ul.removeChild(oneTask);
-  // removeTask(label);
-  // removeCompleteTask(label);
-  // storeTask();
-
-
-
   let oneTask = this.parentNode;
   let listTask =oneTask.parentNode;
   let pos =[...listTask.children].indexOf(oneTask);
 
   if (listTask.getAttribute('id') ==='completedTaskList') {
-    dataCompletedToDoList.splice(pos,1)
+    dataCompletedToDoList.splice(pos,1);
   } else {
-    dataToDoList.splice(pos,1)
-
+    dataToDoList.splice(pos,1);
   }
-  //render list again
-  render();
-
-  //save to local storage
-  storeTask();
+  render();    //render list again
+  storeTask();   //save to local storage
 }
-
-// //Removing deleted task from local storage
-// const removeTask = function (value) {
-//   dataToDoList = dataToDoList.filter((item) => (item != value));
-// }
-
-// const removeCompleteTask = function(value){
-//   dataCompletedToDoList = dataCompletedToDoList.filter((item) => (item != value));
-// }
 
 //Completed tasks in system
 const taskCompleted = function() {
@@ -183,12 +143,8 @@ const taskCompleted = function() {
   let obj = dataToDoList[pos];
   dataCompletedToDoList.push(obj);
   dataToDoList.splice(pos,1);
-
-  //render list again
-  render();
-
-  //save to local storage
-  storeTask();
+  render();    //render list again
+  storeTask();    //save to local storage
 }
 
 //Incomplete tasks in the list
@@ -209,7 +165,6 @@ const clear = function() {
 
 //On click event handler
 const bindTaskEvents = function(taskList) {
-    // let taskElement = taskList.querySelector('label'); 
     let editBtn = taskList.querySelector("img.edit");
     editBtn.onclick = editTaskFun;
     let completeBtn = taskList.querySelector("img.complete");
@@ -235,11 +190,9 @@ function displayAll(){
   document.getElementById("taskTemplate").style.display = "block";
 }
 
+//event handler
 function init() {
-
   render();
-
-  //handler
   addButton.addEventListener("mouseover",animateAddbutton);
   addButton.addEventListener("click", addTaskHandler);
   clearButton.addEventListener('click', clear);
@@ -247,12 +200,10 @@ function init() {
   displayAllList.addEventListener('click', displayAll);
 }
 
-
+//build stored list
 function render () {
-  //build stored list
   buildGenericList(dataToDoList, toDoList);
   buildGenericList(dataCompletedToDoList, completedTasksList);
-
 }
 
 init()
