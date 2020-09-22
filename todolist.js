@@ -195,6 +195,11 @@ function init() {
   render();
   addButton.addEventListener("mouseover",animateAddbutton);
   addButton.addEventListener("click", addTaskHandler);
+  taskTitle.addEventListener("keyup", function (event) { 
+    if (event.keyCode == 13) { 
+        addTaskHandler(); 
+    } 
+  }); 
   clearButton.addEventListener('click', clear);
   displayCompleted.addEventListener('click', displayComplete);
   displayAllList.addEventListener('click', displayAll);
