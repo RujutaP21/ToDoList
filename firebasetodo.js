@@ -21,7 +21,7 @@ function addTask() {
   }
   
   let date = new Date()
-  date = date.getUTCDate() + "-" + (date.getUTCMonth()+1) + "-" + date.getUTCFullYear() + ":" + date.getTime(); 
+  date = date.getUTCDate() + "-" + (date.getUTCMonth()+1) + "-" + date.getUTCFullYear(); 
 
   let datatodo = firebase.database().ref("dataToDoList/");
   let taskKey = datatodo.push().key
