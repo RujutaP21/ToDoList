@@ -1,3 +1,5 @@
+// To Do List in pure javascript
+
 gsap.from(".taskBlock", {opacity: 0.5, y:-10, duration: 2});
 gsap.from(".headingBox" , {opacity: 0.5, x:-100, duration:2});
 gsap.from(".alltasks" , {opacity: 0.5, y:-10, duration:2});
@@ -17,6 +19,8 @@ const storedCompletedToDoList =localStorage.getItem('dataCompletedToDoList');  /
 
 let dataToDoList = (storedDataToDoList && storedDataToDoList.split(",")) || []; // checking the local storage array
 let dataCompletedToDoList = (storedCompletedToDoList && storedCompletedToDoList.split(",")) || []; //checking for completed list array
+
+// var database = firebase.database();
 
 //New task template
 
@@ -140,11 +144,11 @@ const taskCompleted = function() {
 }
 
 //Incomplete tasks in the list
-const taskIncomplete = function(e) {
-    let oneTask = this.parentNode;
-    toDoList.appendChild(oneTask);
-    bindTaskEvents(oneTask, taskCompleted);
-}
+// const taskIncomplete = function(e) {
+//     let oneTask = this.parentNode;
+//     toDoList.appendChild(oneTask);
+//     bindTaskEvents(oneTask, taskCompleted);
+// }
 
 //Clear all the task from the list
 const clear = function() {
